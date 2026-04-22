@@ -7,7 +7,7 @@ const app = express();
 app.use(cors({
   origin: [
     'https://irfan2229.vercel.app',
-    'http://localhost:5000'
+    'http://localhost:3000'
   ]
 }));
 app.use(express.json());
