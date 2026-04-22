@@ -7,7 +7,7 @@ function usePortfolio() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('https://my-portfolio-backend-2ixh.onrender.com')
+    fetch('https://my-portfolio-backend-2ixh.onrender.com/api/portfolio')
       .then(r => r.json())
       .then(d => { setData(d); setLoading(false); })
       .catch(() => setLoading(false));
@@ -187,7 +187,7 @@ function Contact({ personal }) {
     setSending(true);
     setStatus(null);
     try {
-      const res = await fetch('https://my-portfolio-backend-2ixh.onrender.com', {
+      const res = await fetch('https://my-portfolio-backend-2ixh.onrender.com/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form),
