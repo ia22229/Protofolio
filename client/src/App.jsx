@@ -187,7 +187,7 @@ function Contact({ personal }) {
     setSending(true);
     setStatus(null);
     try {
-      const res = await fetch('https://my-portfolio-backend-2ixh.onrender.com/api/contact', {
+      const res = await fetch('https://my-portfolio-backend-2ixh.onrender.com/api/contacts', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form),
