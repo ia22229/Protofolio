@@ -1,5 +1,7 @@
 const express = require('express');
 const cors = require('cors');
+const mongoose = require('mongoose');
+require('dotenv').config();
 
 const app = express();
 app.use(cors({
@@ -9,6 +11,41 @@ app.use(cors({
   ]
 }));
 app.use(express.json());
+// ── MongoDB Connection ──────────────────────────
+mongoose.connect(process.env.MONGODB_URI)
+  .then(() => console.log('✅ MongoDB connected'))
+  .catch(err => console.error('❌ MongoDB error:', err));
+
+// ── Contact Schema ──────────────────────────────
+const contactSchema = new mongoose.Schema({
+  name:      { type: String, required: true },
+  email:     { type: String, required: true },
+  message:   { type: String, required: true },
+  createdAt: { type: Date, default: Date.now }
+});
+const Contact = mongoose.model('Contact', contactSchema);
+
+// ── Portfolio Data ──────────────────────────────
+// ... (keep all your existing portfolioData and routes here)
+
+// ── Contact Route (now saves to MongoDB) ────────
+app.post('/api/contact', async (req, res) => {
+  const { name, email, message } = req.body;
+  if (!name || !email || !message) {
+    return res.status(400).json({ error: 'All fields required.' });
+  }
+  try {
+    await Contact.create({ name, email, message });
+    console.log('📩 Saved to MongoDB:', { name, email });
+    res.json({ success: true, message: 'Message received! Irfan will get back to you soon.' });
+  } catch (err) {
+    console.error('Save error:', err);
+    res.status(500).json({ error: 'Failed to save. Please email directly.' });
+  }
+});
+
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
 
 // ── Portfolio Data ──────────────────────────────────────────────
 const portfolioData = {
