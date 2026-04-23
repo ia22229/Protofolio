@@ -56,7 +56,6 @@ function Nav({ active, setActive, theme, toggleTheme }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const links = ['Home', 'Skills', 'Projects', 'Experience', 'Contact'];
 
-  return (
 return (
     <nav className="nav">
       <span className="nav-logo" onClick={() => setActive('Home')}>IA</span>
