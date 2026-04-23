@@ -459,26 +459,21 @@ function Admin() {
               </div>
             </div>
             <p className="message-body">{msg.message}</p>
-            <div className="message-actions">
-              <a href={`mailto:${msg.email}`} className="btn-primary" style={{fontSize:'0.8rem',padding:'0.4rem 1rem',textDecoration:'none'}}>
-                Reply ✉
-              </a>
-              {msg.phone && (
-                <a href={`https://wa.me/${msg.phone.replace(/[^0-9]/g,'')}`} target="_blank" rel="noreferrer"
-                  className="btn-outline" style={{fontSize:'0.8rem',padding:'0.4rem 1rem',textDecoration:'none'}}>
-                  WhatsApp 💬
-                </a>
-              )}
-              {!msg.read && (
-                <button className="btn-ghost" style={{fontSize:'0.8rem',padding:'0.4rem 1rem'}} onClick={() => markRead(msg._id)}>
-                  Mark Read ✓
-                </button>
-              )}
-              <button onClick={() => deleteMsg(msg._id)}
-                style={{marginLeft:'auto',background:'none',border:'1px solid rgba(239,68,68,0.3)',color:'#f87171',borderRadius:'6px',padding:'0.4rem 0.8rem',cursor:'pointer',fontSize:'0.8rem'}}>
-                🗑 Delete
-              </button>
-            </div>
+<div className="message-actions">
+  <a href={`mailto:${msg.email}`} className="action-reply">Reply ✉</a>
+  {msg.phone && (
+    <a href={`https://wa.me/${msg.phone.replace(/[^0-9]/g,'')}`}
+      target="_blank" rel="noreferrer" className="action-whatsapp">
+      WhatsApp 💬
+    </a>
+  )}
+  {!msg.read && (
+    <button className="action-read" onClick={() => markRead(msg._id)}>
+      Mark Read ✓
+    </button>
+  )}
+  <button className="action-delete" onClick={() => deleteMsg(msg._id)}>🗑</button>
+</div>
           </div>
         ))}
       </div>
