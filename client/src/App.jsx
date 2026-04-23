@@ -4,6 +4,7 @@ import './Admin.css';
 const API = 'https://my-portfolio-backend-2ixh.onrender.com';
 import { initializeApp } from 'firebase/app';
 import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from 'firebase/auth';
+
 const firebaseConfig = {
   apiKey:            process.env.REACT_APP_FIREBASE_API_KEY,
   authDomain:        process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
@@ -12,11 +13,13 @@ const firebaseConfig = {
   messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_ID,
   appId:             process.env.REACT_APP_FIREBASE_APP_ID,
 };
+
 const firebaseApp = initializeApp(firebaseConfig);
 const auth        = getAuth(firebaseApp);
 const provider    = new GoogleAuthProvider();
 const ADMIN_EMAIL = 'irfanahmed9400265514@gmail.com';
 const ADMIN_TOKEN = 'irfan-admin-secret';
+
 const COUNTRY_CODES = [
   { code: '+91',  flag: '🇮🇳', name: 'India' },
   { code: '+1',   flag: '🇺🇸', name: 'USA' },
@@ -34,6 +37,7 @@ const COUNTRY_CODES = [
   { code: '+55',  flag: '🇧🇷', name: 'Brazil' },
   { code: '+27',  flag: '🇿🇦', name: 'South Africa' },
 ];
+
 function usePortfolio() {
   const [data, setData]       = useState(null);
   const [loading, setLoading] = useState(true);
@@ -47,6 +51,7 @@ function usePortfolio() {
 
   return { data, loading };
 }
+
 function Nav({ active, setActive }) {
   const links = ['Home', 'Skills', 'Projects', 'Experience', 'Contact'];
   const [menuOpen, setMenuOpen] = useState(false);
@@ -70,13 +75,17 @@ function Nav({ active, setActive }) {
           <button
             className={active === 'Admin' ? 'active admin-btn' : 'admin-btn'}
             onClick={() => { setActive('Admin'); setMenuOpen(false); }}
-          ><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-lock" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8 0a4 4 0 0 1 4 4v2.05a2.5 2.5 0 0 1 2 2.45v5a2.5 2.5 0 0 1-2.5 2.5h-7A2.5 2.5 0 0 1 2 13.5v-5a2.5 2.5 0 0 1 2-2.45V4a4 4 0 0 1 4-4M4.5 7A1.5 1.5 0 0 0 3 8.5v5A1.5 1.5 0 0 0 4.5 15h7a1.5 1.5 0 0 0 1.5-1.5v-5A1.5 1.5 0 0 0 11.5 7zM8 1a3 3 0 0 0-3 3v2h6V4a3 3 0 0 0-3-3"/></svg></button>
+          >
+            {/* FIXED: className and fillRule */}
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-lock" viewBox="0 0 16 16">
+              <path fillRule="evenodd" d="M8 0a4 4 0 0 1 4 4v2.05a2.5 2.5 0 0 1 2 2.45v5a2.5 2.5 0 0 1-2.5 2.5h-7A2.5 2.5 0 0 1 2 13.5v-5a2.5 2.5 0 0 1 2-2.45V4a4 4 0 0 1 4-4M4.5 7A1.5 1.5 0 0 0 3 8.5v5A1.5 1.5 0 0 0 4.5 15h7a1.5 1.5 0 0 0 1.5-1.5v-5A1.5 1.5 0 0 0 11.5 7zM8 1a3 3 0 0 0-3 3v2h6V4a3 3 0 0 0-3-3"/>
+            </svg>
+          </button>
         </li>
       </ul>
     </nav>
   );
 }
-
 
 function Hero({ personal, setActive }) {
   if (!personal) return null;
@@ -87,32 +96,38 @@ function Hero({ personal, setActive }) {
           <span key={i} className="hero-particle" style={{ '--i': i }} />
         ))}
       </div>
+      
       <div className="hero-container"> 
         <div className="hero-image-container">
-          <img src="irf.png" alt={} className="hero-profile-img" />
-       </div>
-      <div className="hero-content">
-        <p className="hero-greeting">Hello, I'm</p>
-        <h1 className="hero-name">{personal.name}</h1>
-        <h2 className="hero-title">{personal.title}</h2>
-        <p className="hero-sub">{personal.subtitle}</p>
-        <p className="hero-summary">{personal.summary}</p>
-        <div className="hero-cta">
-          <button className="btn-primary" onClick={() => setActive('Projects')}>View Projects</button>
-          <button className="btn-outline" onClick={() => setActive('Contact')}>Get In Touch</button>
-          <a className="btn-ghost" href={personal.portfolio} target="_blank" rel="noreferrer">Live Portfolio ↗</a>
+          {/* FIXED: Added a valid string to the alt attribute */}
+          <img src="irf.png" alt={personal.name || "Profile Picture"} className="hero-profile-img" />
         </div>
-        <div className="hero-links">
-          <a href={personal.github} target="_blank" rel="noreferrer"><GithubIcon /></a>
-          <a href={personal.linkedin} target="_blank" rel="noreferrer"><LinkedinIcon /></a>
-          <a href={`mailto:${personal.email}`}><EmailIcon /></a>
+        
+        <div className="hero-content">
+          <p className="hero-greeting">Hello, I'm</p>
+          <h1 className="hero-name">{personal.name}</h1>
+          <h2 className="hero-title">{personal.title}</h2>
+          <p className="hero-sub">{personal.subtitle}</p>
+          <p className="hero-summary">{personal.summary}</p>
+          
+          <div className="hero-cta">
+            <button className="btn-primary" onClick={() => setActive('Projects')}>View Projects</button>
+            <button className="btn-outline" onClick={() => setActive('Contact')}>Get In Touch</button>
+            <a className="btn-ghost" href={personal.portfolio} target="_blank" rel="noreferrer">Live Portfolio ↗</a>
+          </div>
+          
+          <div className="hero-links">
+            <a href={personal.github} target="_blank" rel="noreferrer"><GithubIcon /></a>
+            <a href={personal.linkedin} target="_blank" rel="noreferrer"><LinkedinIcon /></a>
+            <a href={`mailto:${personal.email}`}><EmailIcon /></a>
+          </div>
+          <p className="hero-availability">🟢 {personal.availability}</p>
         </div>
-        <p className="hero-availability">🟢 {personal.availability}</p>
-      </div>
+      {/* FIXED: Added the missing closing div for hero-container */}
+      </div> 
     </section>
   );
 }
-
 
 function Skills({ skills }) {
   if (!skills) return null;
@@ -138,7 +153,6 @@ function Skills({ skills }) {
   );
 }
 
-
 function Projects({ projects }) {
   if (!projects) return null;
   return (
@@ -163,7 +177,6 @@ function Projects({ projects }) {
     </section>
   );
 }
-
 
 function Experience({ experience, education }) {
   if (!experience) return null;
@@ -202,7 +215,6 @@ function Experience({ experience, education }) {
     </section>
   );
 }
-
 
 function Contact({ personal }) {
   const [form, setForm]     = useState({ name: '', email: '', countryCode: '+91', phone: '', message: '' });
@@ -271,7 +283,6 @@ function Contact({ personal }) {
             <input type="email" value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} placeholder="your@email.com" required />
           </div>
 
-          {}
           <div className="form-group">
             <label>Phone <span style={{color:'var(--muted)',fontWeight:400}}>(optional)</span></label>
             <div className="phone-row">
@@ -390,7 +401,11 @@ function Admin() {
   if (!user) return (
     <section className="section admin-login">
       <div className="admin-login-card">
-        <div className="admin-lock"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-lock" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8 0a4 4 0 0 1 4 4v2.05a2.5 2.5 0 0 1 2 2.45v5a2.5 2.5 0 0 1-2.5 2.5h-7A2.5 2.5 0 0 1 2 13.5v-5a2.5 2.5 0 0 1 2-2.45V4a4 4 0 0 1 4-4M4.5 7A1.5 1.5 0 0 0 3 8.5v5A1.5 1.5 0 0 0 4.5 15h7a1.5 1.5 0 0 0 1.5-1.5v-5A1.5 1.5 0 0 0 11.5 7zM8 1a3 3 0 0 0-3 3v2h6V4a3 3 0 0 0-3-3"/></svg></div>
+        <div className="admin-lock">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-lock" viewBox="0 0 16 16">
+            <path fillRule="evenodd" d="M8 0a4 4 0 0 1 4 4v2.05a2.5 2.5 0 0 1 2 2.45v5a2.5 2.5 0 0 1-2.5 2.5h-7A2.5 2.5 0 0 1 2 13.5v-5a2.5 2.5 0 0 1 2-2.45V4a4 4 0 0 1 4-4M4.5 7A1.5 1.5 0 0 0 3 8.5v5A1.5 1.5 0 0 0 4.5 15h7a1.5 1.5 0 0 0 1.5-1.5v-5A1.5 1.5 0 0 0 11.5 7zM8 1a3 3 0 0 0-3 3v2h6V4a3 3 0 0 0-3-3"/>
+          </svg>
+        </div>
         <h2>Admin Dashboard</h2>
         <p>Sign in with your Google account to view messages</p>
         {error && <p className="form-status err">{error}</p>}
@@ -463,28 +478,27 @@ function Admin() {
               </div>
             </div>
             <p className="message-body">{msg.message}</p>
-<div className="message-actions">
-  <a href={`mailto:${msg.email}`} className="action-reply">Reply ✉</a>
-  {msg.phone && (
-    <a href={`https://wa.me/${msg.phone.replace(/[^0-9]/g,'')}`}
-      target="_blank" rel="noreferrer" className="action-whatsapp">
-      WhatsApp 💬
-    </a>
-  )}
-  {!msg.read && (
-    <button className="action-read" onClick={() => markRead(msg._id)}>
-      Mark Read ✓
-    </button>
-  )}
-  <button className="action-delete" onClick={() => deleteMsg(msg._id)}>🗑</button>
-</div>
+            <div className="message-actions">
+              <a href={`mailto:${msg.email}`} className="action-reply">Reply ✉</a>
+              {msg.phone && (
+                <a href={`https://wa.me/${msg.phone.replace(/[^0-9]/g,'')}`}
+                  target="_blank" rel="noreferrer" className="action-whatsapp">
+                  WhatsApp 💬
+                </a>
+              )}
+              {!msg.read && (
+                <button className="action-read" onClick={() => markRead(msg._id)}>
+                  Mark Read ✓
+                </button>
+              )}
+              <button className="action-delete" onClick={() => deleteMsg(msg._id)}>🗑</button>
+            </div>
           </div>
         ))}
       </div>
     </section>
   );
 }
-
 
 const GithubIcon   = () => <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>;
 const LinkedinIcon = () => <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>;
