@@ -105,18 +105,6 @@ return (
 }
 
 function Hero({ personal, setActive }) {
-  const [photo, setPhoto] = useState(null);
-  const fileRef = useRef();
-
-  const handlePhoto = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const url = URL.createObjectURL(file);
-      setPhoto(url);
-      localStorage.setItem('hero_photo_name', file.name);
-    }
-  };
-
   if (!personal) return null;
   return (
     <section className="hero">
@@ -128,13 +116,13 @@ function Hero({ personal, setActive }) {
 
         <div className="hero-cta">
           <button className="btn-primary" onClick={() => setActive('Contact')}>
-            Hire Me 
+            Hire Me
           </button>
-          <a
+          
             href="/Irfan_Ahmed_CV.pdf"
             download
             className="btn-outline"
-            style={{textDecoration:'none',display:'inline-flex',alignItems:'center',gap:'0.4rem'}}
+            style={{ textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '0.4rem' }}
           >
             Download CV ↓
           </a>
@@ -158,30 +146,10 @@ function Hero({ personal, setActive }) {
       <div className="hero-right">
         <div className="hero-photo-wrap">
           <div className="hero-photo-bg" />
-          {photo ? (
-            <img src={photo} alt="Irfan Ahmed" className="hero-actual-photo" />
-          ) : (
-            <div className="hero-photo-placeholder">
-              <span className="hero-photo-icon">👤</span>
-              <p className="hero-photo-text">Add your photo to make the portfolio shine!</p>
-              <button className="hero-photo-upload" onClick={() => fileRef.current.click()}>
-                Upload Photo
-              </button>
-              <input ref={fileRef} type="file" accept="image/*" style={{display:'none'}} onChange={handlePhoto} />
-            </div>
-          )}
-          {photo && (
-            <button
-              onClick={() => fileRef.current.click()}
-              style={{position:'absolute',bottom:'-10px',right:'10px',background:'var(--accent)',color:'#fff',border:'none',borderRadius:'6px',padding:'0.35rem 0.75rem',fontSize:'0.75rem',cursor:'pointer',fontWeight:700}}
-            >
-              Change Photo
-              <input ref={fileRef} type="file" accept="image/*" style={{display:'none'}} onChange={handlePhoto} />
-            </button>
-          )}
+          <img src="/irf.png" alt="Irfan Ahmed" className="hero-actual-photo" />
           <div className="hero-accent-ring" />
-          <div className="hero-badge"> Open to Work</div>
-          <div className="hero-badge2"> MERN Stack</div>
+          <div className="hero-badge">Open to Work</div>
+          <div className="hero-badge2">MERN Stack</div>
         </div>
       </div>
     </section>
