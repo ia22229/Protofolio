@@ -593,25 +593,30 @@ body {
   .hero-badge2 { right: 0; }
   .section { padding: 80px 1.5rem 3rem; }
   .contact-grid { grid-template-columns: 1fr; }
-  .nav { padding: 0 1.5rem; flex-wrap: nowrap; }
+  .nav { padding: 0 1rem; flex-wrap: nowrap; }
   .nav-links { display: none; flex-direction: column; position: absolute; top: 70px; left: 0; right: 0; background: var(--nav-bg); border-bottom: 1px solid var(--border); padding: 1rem; gap: 0.25rem; backdrop-filter: blur(20px); z-index: 99; }
   .nav-links.open { display: flex; }
   .nav-links li { width: 100%; text-align: center; }
   .nav-links li button { width: 100%; justify-content: center; }
   .hire-btn { width: auto !important; display: inline-block !important; }
-  .nav-burger { display: flex; order: 3; }
-  .nav-logo { order: 1; }
-  .nav-desktop-icons {
-    display: flex;
-    align-items: center;
-    gap: 0.25rem;
-    order: 2;
-    margin-left: auto;
-  }
+  .nav-burger { display: flex; }
   .hero-stats { flex-direction: column; }
   .stat { border-right: none; border-bottom: 1px solid var(--border); }
   .stat:last-child { border-bottom: none; }
+
+  /* Show desktop-icons div in mobile navbar, left of burger */
+  .nav-desktop-icons {
+    display: flex !important;
+    align-items: center;
+    gap: 0.25rem;
+    margin-left: auto;
+    margin-right: 0.4rem;
+  }
+
+  /* Hide duplicate icons inside dropdown on mobile */
+  .nav-mobile-icons { display: none !important; }
 }
 
+/* Desktop: hide the nav-desktop-icons div (icons are in nav-links instead) */
 .nav-desktop-icons { display: none; }
 .nav-mobile-icons { display: none; }
