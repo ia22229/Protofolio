@@ -1,6 +1,4 @@
-
-@import url('https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Raleway:ital,wght@0,300;0,400;0,600;0,700;1,300&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Raleway:ital,wght@0,300;0,400;0,600;0,700;1,300&family=Inter:wght@700;800&display=swap');
 :root {
   --accent:    #ff6b00;
   --accent2:   #ff9a3c;
@@ -249,14 +247,14 @@ body {
 }
 .stat:last-child { border-right: none; }
 .stat-num {
-  font-family: 'Clash Display', sans-serif;
+  font-family: 'Inter', 'Clash Display', sans-serif;
   font-size: 1.8rem;
-  font-weight: 700;
+  font-weight: 800;
   color: var(--accent);
   display: block;
-  font-variant-numeric: normal;   
-  font-feature-settings: normal;
-  letter-spacing: normal;         
+  font-variant-numeric: lining-nums;
+  font-feature-settings: "lnum" 1;
+  letter-spacing: -0.5px;
 }
 
 .stat-label {
