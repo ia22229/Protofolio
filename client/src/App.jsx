@@ -104,7 +104,7 @@ return (
   );
 }
 
-function Hero({ personal, setActive }) {
+function Hero({ personal, setActive, theme }) {
   if (!personal) return null;
   return (
     <section className="hero">
