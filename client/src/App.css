@@ -132,47 +132,64 @@ body {
   pointer-events: none;
 }
 
+/* 1. Main container - Forces center alignment on screen */
 .hero-container {
   display: flex;
+  flex-direction: row; /* Image on left, text on right */
   align-items: center;
-  justify-content: flex-start; /* Aligns content to the left */
-  gap: 4rem;
-  max-width: 1200px;
-  margin: 0 auto;
+  justify-content: center; 
+  width: 100%;
+  max-width: 1100px; /* Keeps everything from spreading too wide */
+  margin: 0 auto; /* This centers the whole block on your screen */
+  gap: 4rem; /* Space between the image and text */
   padding: 2rem;
   z-index: 2;
   position: relative;
-  width: 100%;
 }
 
+/* 2. Image Wrapper - Stops it from shrinking */
 .hero-image-container {
-  flex-shrink: 0; /* Prevents the image from shrinking too much */
+  flex: 0 0 auto; 
 }
 
-.hero-content {
-  flex-grow: 1; /* Allows the text content to take up remaining space */
-  text-align: left; /* Ensures the text inside stays aligned left */
-}
-
-/* Optional: Make the image match the rounded rectangle style in your screenshot */
+/* 3. The Image Itself */
 .hero-profile-img {
   width: 350px; 
   height: auto;
   border-radius: 20px;
   object-fit: cover;
-  /* Remove the heavy box-shadow if you want the flat dark look from your screenshot */
 }
 
-/* Responsive adjustment for mobile */
-@media (max-width: 768px) {
+/* 4. The Text Content - Fills the right side and aligns left */
+.hero-content {
+  flex: 1; /* Takes up all remaining space on the right */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Forces all text nodes to the left edge */
+  text-align: left;
+}
+
+/* 5. Buttons and Icons - Keeps them aligned left under the text */
+.hero-cta, .hero-links {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: 1rem;
+  width: 100%;
+}
+
+/* 6. Mobile Fix - Stacks them nicely on phones */
+@media (max-width: 900px) {
   .hero-container {
-    flex-direction: column;
-    text-align: center;
+    flex-direction: column; /* Stack image on top of text */
     gap: 2rem;
   }
-  
   .hero-content {
-    text-align: center; /* Center text on mobile */
+    align-items: center; /* Center text on mobile */
+    text-align: center;
+  }
+  .hero-cta, .hero-links {
+    justify-content: center; /* Center buttons on mobile */
   }
 }
 
