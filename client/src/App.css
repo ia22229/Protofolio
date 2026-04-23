@@ -107,6 +107,63 @@ body {
   box-shadow: 0 4px 15px var(--accent-glow);
 }
 .hire-btn:hover { transform: translateY(-2px) !important; box-shadow: 0 8px 25px var(--accent-glow) !important; background: var(--accent2) !important; }
+.nav-desktop-icons {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.nav-desktop-icons .admin-btn {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.4rem 0.6rem;
+  color: var(--text);
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+}
+.nav-desktop-icons .admin-btn:hover,
+.nav-desktop-icons .admin-btn.active {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: var(--accent-glow);
+}
+
+/* Hide desktop icons on mobile */
+@media (max-width: 900px) {
+  .nav-desktop-icons { display: none; }
+}
+
+/* Mobile icons row inside dropdown */
+.nav-mobile-icons {
+  display: none;
+}
+@media (max-width: 900px) {
+  .nav-mobile-icons {
+    display: flex !important;
+    gap: 0.75rem;
+    padding: 0.5rem 1rem;
+    border-top: 1px solid var(--border);
+    margin-top: 0.25rem;
+  }
+  .nav-mobile-icons .admin-btn {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.4rem 0.7rem;
+    color: var(--text);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    transition: all 0.2s;
+  }
+  .nav-mobile-icons .admin-btn.active {
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+}
 
 .nav-burger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; }
 .nav-burger span { display: block; width: 22px; height: 2px; background: var(--accent); border-radius: 2px; }
