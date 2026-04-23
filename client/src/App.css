@@ -691,3 +691,20 @@ body {
   .nav-mobile-icons { display: none !important; }
 }
 
+/* Align Links and Icons on Desktop */
+@media (min-width: 901px) {
+  .nav {
+    justify-content: flex-start; /* Disables space-between so we can group items to the right */
+  }
+  
+  .nav-links {
+    order: 1;
+    margin-left: auto; /* Pushes the links and icons all the way to the right */
+    margin-right: 1.5rem; /* Adds spacing between the links and the icons */
+  }
+  
+  .nav-desktop-icons {
+    order: 2; /* Ensures icons render after the links */
+  }
+}
+
