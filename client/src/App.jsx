@@ -517,7 +517,7 @@ export default function App() {
     <div className="app">
       <Nav active={active} setActive={setActive} theme={theme} toggleTheme={toggleTheme} />
       <main>
-        {active === 'Home'       && <Hero personal={data?.personal} setActive={setActive} />}
+        {active === 'Home'       && <Hero personal={data?.personal} setActive={setActive} theme={theme} />}
         {active === 'Skills'     && <Skills skills={data?.skills} />}
         {active === 'Projects'   && <Projects projects={data?.projects} />}
         {active === 'Experience' && <Experience experience={data?.experience} education={data?.education} />}
