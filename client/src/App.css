@@ -247,14 +247,11 @@ body {
 }
 .stat:last-child { border-right: none; }
 .stat-num {
-  font-family: 'Inter', 'Clash Display', sans-serif;
+  font-family: 'Space Grotesk', sans-serif;
   font-size: 1.8rem;
-  font-weight: 800;
+  font-weight: 700;
   color: var(--accent);
   display: block;
-  font-variant-numeric: lining-nums;
-  font-feature-settings: "lnum" 1;
-  letter-spacing: -0.5px;
 }
 
 .stat-label {
