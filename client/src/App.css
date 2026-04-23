@@ -86,15 +86,19 @@ body {
 .theme-toggle {
   background: var(--bg3);
   border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: 0.35rem 0.75rem;
+  border-radius: 8px;        
+  padding: 0.4rem 0.6rem;
   cursor: pointer;
-  font-size: 1rem;
   color: var(--text);
   transition: all 0.2s;
-  margin-left: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-.theme-toggle:hover { border-color: var(--accent); }
+.theme-toggle:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
 
 .hire-btn {
   background: var(--accent) !important;
