@@ -553,7 +553,6 @@ export default function App() {
       </main>
       <footer className="footer">
         <p>Built with MERN Stack · Designed & Developed by <span style={{color:'var(--accent)'}}>Irfan Ahmed</span></p>
-        <p>© {new Date().getFullYear()} All rights reserved</p>
       </footer>
     </div>
   );
