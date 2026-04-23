@@ -128,7 +128,7 @@ function Hero({ personal, setActive }) {
 
         <div className="hero-cta">
           <button className="btn-primary" onClick={() => setActive('Contact')}>
-            Hire Me 🚀
+            Hire Me 
           </button>
           <a
             href="/Irfan_Ahmed_CV.pdf"
@@ -180,8 +180,8 @@ function Hero({ personal, setActive }) {
             </button>
           )}
           <div className="hero-accent-ring" />
-          <div className="hero-badge">🚀 Open to Work</div>
-          <div className="hero-badge2">⚡ MERN Stack</div>
+          <div className="hero-badge"> Open to Work</div>
+          <div className="hero-badge2"> MERN Stack</div>
         </div>
       </div>
     </section>
@@ -332,21 +332,13 @@ function Contact({ personal }) {
 
           <div className="form-group">
             <label>Email</label>
-            <input
-              type="email"
-              value={form.email}
-              onChange={e => handleEmailChange(e.target.value)}
-              placeholder="your@email.com"
-              required
-              style={{ borderColor: emailStatus === 'invalid' ? '#f87171' : emailStatus === 'valid' ? '#4ade80' : undefined }}
-            />
-            {emailStatus && (
-              <span className={`email-status ${emailStatus}`}>
-                {emailStatus === 'checking' && '⏳ Checking email...'}
-                {emailStatus === 'valid'    && '✅ Email looks good'}
-                {emailStatus === 'invalid'  && '❌ Invalid or fake email — please use a real one'}
-              </span>
-            )}
+<input
+  type="email"
+  value={form.email}
+  onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
+  placeholder="your@email.com"
+  required
+/>
           </div>
 
           <div className="form-group">
@@ -382,7 +374,7 @@ function Contact({ personal }) {
           </div>
 
           {status && <p className={`form-status ${status.ok ? 'ok' : 'err'}`}>{status.msg}</p>}
-          <button type="submit" className="btn-primary full" disabled={sending || emailStatus === 'invalid'}>
+          <button type="submit" className="btn-primary full" disabled={sending}>
             {sending ? 'Sending…' : 'Send Message 🚀'}
           </button>
           <p style={{textAlign:'center',fontSize:'0.75rem',color:'var(--muted)',marginTop:'0.5rem'}}>
@@ -510,7 +502,7 @@ function Admin() {
               {msg.phone && (
                 <a href={`https://wa.me/${msg.phone.replace(/[^0-9]/g,'')}`}
                 target="_blank" rel="noreferrer" className="action-whatsapp">
-                  WhatsApp 💬
+                  WhatsApp 
                   </a>
                 )}
                 {!msg.read && (
