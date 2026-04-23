@@ -1,30 +1,45 @@
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
+const nodemailer = require('nodemailer');
 require('dotenv').config();
 
 const app = express();
 
 app.use(cors({
-  origin: ['https://irfan2229.vercel.app', 'http://localhost:3000']
+  origin: [
+    'https://irfan2229.vercel.app',
+    'http://localhost:3000'
+  ]
 }));
 app.use(express.json());
 
-// ── MongoDB Connection ──────────────────────────
+// ── MongoDB Connection ──────────────────────────────────────────
 mongoose.connect(process.env.MONGODB_URI)
   .then(() => console.log('✅ MongoDB connected'))
   .catch(err => console.error('❌ MongoDB error:', err));
 
-// ── Contact Schema ──────────────────────────────
+// ── Contact Schema ──────────────────────────────────────────────
 const contactSchema = new mongoose.Schema({
   name:      { type: String, required: true },
   email:     { type: String, required: true },
+  phone:     { type: String, default: '' },
   message:   { type: String, required: true },
+  read:      { type: Boolean, default: false },
   createdAt: { type: Date, default: Date.now }
 });
 const Contact = mongoose.model('Contact', contactSchema);
 
-// ── Portfolio Data ──────────────────────────────
+// ── Nodemailer Transporter ──────────────────────────────────────
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: process.env.EMAIL_USER,   // your gmail
+    pass: process.env.EMAIL_PASS,   // gmail app password
+  }
+});
+
+// ── Portfolio Data ──────────────────────────────────────────────
 const portfolioData = {
   personal: {
     name: "Irfan Ahmed",
@@ -82,7 +97,7 @@ const portfolioData = {
       highlight: "Live Production App",
     },
     {
-      name: "WhatsApp Automation Bot ",
+      name: "WhatsApp Automation Bot — Skin Clinic",
       stack: ["Node.js","Express.js","WhatsApp Business API"],
       live: null,
       description: "API-integrated Node.js automation system with stateful session management; clean modular code following REST and security standards. Delivered measurable operational improvements for the client.",
@@ -112,27 +127,121 @@ const portfolioData = {
   ],
 };
 
-// ── Routes ──────────────────────────────────────
-app.get('/api/portfolio', (req, res) => res.json(portfolioData));
-app.get('/api/portfolio/personal', (req, res) => res.json(portfolioData.personal));
-app.get('/api/portfolio/skills', (req, res) => res.json(portfolioData.skills));
-app.get('/api/portfolio/education', (req, res) => res.json(portfolioData.education));
-app.get('/api/portfolio/experience', (req, res) => res.json(portfolioData.experience));
-app.get('/api/portfolio/projects', (req, res) => res.json(portfolioData.projects));
+// ── Portfolio Routes ────────────────────────────────────────────
+app.get('/api/portfolio',             (req, res) => res.json(portfolioData));
+app.get('/api/portfolio/personal',    (req, res) => res.json(portfolioData.personal));
+app.get('/api/portfolio/skills',      (req, res) => res.json(portfolioData.skills));
+app.get('/api/portfolio/education',   (req, res) => res.json(portfolioData.education));
+app.get('/api/portfolio/experience',  (req, res) => res.json(portfolioData.experience));
+app.get('/api/portfolio/projects',    (req, res) => res.json(portfolioData.projects));
 
-// ── Contact Route ───────────────────────────────
+// ── Contact Route ───────────────────────────────────────────────
 app.post('/api/contact', async (req, res) => {
-  const { name, email, message } = req.body;
+  const { name, email, phone, message } = req.body;
   if (!name || !email || !message) {
-    return res.status(400).json({ error: 'All fields required.' });
+    return res.status(400).json({ error: 'Name, email and message are required.' });
   }
+
   try {
-    await Contact.create({ name, email, message });
-    console.log('📩 Saved to MongoDB:', { name, email });
-    res.json({ success: true, message: 'Message received! Irfan will get back to you soon.' });
+    // 1. Save to MongoDB
+    await Contact.create({ name, email, phone: phone || '', message });
+    console.log('📩 Saved to MongoDB:', { name, email, phone });
+
+    // 2. Email to YOU (Irfan) — notification
+    await transporter.sendMail({
+      from: `"Portfolio Contact" <${process.env.EMAIL_USER}>`,
+      to: process.env.EMAIL_USER,
+      subject: `📬 New message from ${name}`,
+      html: `
+        <div style="font-family:sans-serif;max-width:500px;margin:auto;padding:24px;background:#0d1520;color:#e2e8f0;border-radius:12px;">
+          <h2 style="color:#00d4ff;margin-bottom:4px;">New Portfolio Message</h2>
+          <hr style="border-color:#1e3a5f;margin:16px 0"/>
+          <p><strong style="color:#94a3b8">Name:</strong> ${name}</p>
+          <p><strong style="color:#94a3b8">Email:</strong> <a href="mailto:${email}" style="color:#00d4ff">${email}</a></p>
+          ${phone ? `<p><strong style="color:#94a3b8">Phone:</strong> ${phone}</p>` : ''}
+          <p><strong style="color:#94a3b8">Message:</strong></p>
+          <div style="background:#111c2d;padding:16px;border-radius:8px;border-left:3px solid #00d4ff;margin-top:8px;">
+            ${message}
+          </div>
+          <hr style="border-color:#1e3a5f;margin:16px 0"/>
+          <p style="font-size:12px;color:#64748b">Sent from irfan2229.vercel.app</p>
+        </div>
+      `
+    });
+
+    // 3. Auto-reply email TO the sender
+    await transporter.sendMail({
+      from: `"Irfan Ahmed" <${process.env.EMAIL_USER}>`,
+      to: email,
+      subject: `Thanks for reaching out, ${name}! 👋`,
+      html: `
+        <div style="font-family:sans-serif;max-width:500px;margin:auto;padding:24px;background:#0d1520;color:#e2e8f0;border-radius:12px;">
+          <h2 style="color:#00d4ff;">Hey ${name}! 👋</h2>
+          <p style="line-height:1.7;color:#94a3b8">
+            Thanks for getting in touch! I've received your message and will get back to you as soon as possible — usually within 24 hours.
+          </p>
+          <div style="background:#111c2d;padding:16px;border-radius:8px;border-left:3px solid #00d4ff;margin:20px 0;">
+            <p style="margin:0;font-size:13px;color:#64748b">Your message:</p>
+            <p style="margin:8px 0 0;color:#e2e8f0">${message}</p>
+          </div>
+          <p style="color:#94a3b8">In the meantime, feel free to check out my work:</p>
+          <a href="https://irfanahmed2229.vercel.app" style="display:inline-block;background:#00d4ff;color:#080c14;padding:10px 24px;border-radius:8px;text-decoration:none;font-weight:700;margin-top:8px;">
+            View Portfolio
+          </a>
+          <hr style="border-color:#1e3a5f;margin:24px 0"/>
+          <p style="font-size:13px;color:#64748b">
+            Irfan Ahmed · MERN Stack Developer · Kerala, India<br/>
+            <a href="https://github.com/ia22229" style="color:#00d4ff">GitHub</a> · 
+            <a href="https://linkedin.com/in/ia2229" style="color:#00d4ff">LinkedIn</a>
+          </p>
+        </div>
+      `
+    });
+
+    res.json({ success: true, message: `Thanks ${name}! I'll get back to you soon. Check your email for confirmation.` });
+
   } catch (err) {
-    console.error('Save error:', err);
-    res.status(500).json({ error: 'Failed to save. Please email directly.' });
+    console.error('Error:', err);
+    res.status(500).json({ error: 'Failed to send. Please email directly.' });
+  }
+});
+
+// ── Admin Routes (protected by secret token) ────────────────────
+const ADMIN_TOKEN = process.env.ADMIN_TOKEN || 'irfan-admin-secret';
+
+function adminAuth(req, res, next) {
+  const token = req.headers['x-admin-token'];
+  if (token !== ADMIN_TOKEN) return res.status(401).json({ error: 'Unauthorized' });
+  next();
+}
+
+// Get all messages
+app.get('/api/admin/messages', adminAuth, async (req, res) => {
+  try {
+    const messages = await Contact.find().sort({ createdAt: -1 });
+    res.json(messages);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch messages' });
+  }
+});
+
+// Mark as read
+app.patch('/api/admin/messages/:id/read', adminAuth, async (req, res) => {
+  try {
+    await Contact.findByIdAndUpdate(req.params.id, { read: true });
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to update' });
+  }
+});
+
+// Delete message
+app.delete('/api/admin/messages/:id', adminAuth, async (req, res) => {
+  try {
+    await Contact.findByIdAndDelete(req.params.id);
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to delete' });
   }
 });
 
