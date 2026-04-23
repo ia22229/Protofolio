@@ -146,7 +146,11 @@ function Hero({ personal, setActive }) {
       <div className="hero-right">
         <div className="hero-photo-wrap">
           <div className="hero-photo-bg" />
-          <img src="/irf.png" alt="Irfan Ahmed" className="hero-actual-photo" />
+          <img
+            src={theme === 'dark' ? '/irf1.png' : '/irf.png'}
+            alt="Irfan Ahmed"
+            className="hero-actual-photo"
+          />
           <div className="hero-accent-ring" />
           <div className="hero-badge">Open to Work</div>
           <div className="hero-badge2">MERN Stack</div>
