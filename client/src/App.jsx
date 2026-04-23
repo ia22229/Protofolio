@@ -171,17 +171,29 @@ function Hero({ personal, setActive, theme }) {
       </div>
 
       <div className="hero-right">
-        <div className="hero-photo-wrap">
-          <div className="hero-photo-bg" />
-          <img
-            src={theme === 'dark' ? '/irf1.png' : '/irf.png'}
-            alt="Irfan Ahmed"
-            className="hero-actual-photo"
-          />
-          <div className="hero-accent-ring" />
-          <div className="hero-badge">Open to Work</div>
-          <div className="hero-badge2">MERN Stack</div>
-        </div>
+<div className="hero-photo-wrap">
+  <div className="hero-photo-bg" />
+  
+  {/* Dark Mode Image */}
+  <img
+    src="/irf1.png"
+    alt="Irfan Ahmed"
+    className="hero-actual-photo"
+    style={{ opacity: theme === 'dark' ? 1 : 0 }}
+  />
+  
+  {/* Light Mode Image */}
+  <img
+    src="/irf.png"
+    alt="Irfan Ahmed"
+    className="hero-actual-photo"
+    style={{ opacity: theme === 'light' ? 1 : 0 }}
+  />
+
+  <div className="hero-accent-ring" />
+  <div className="hero-badge">Open to Work</div>
+  <div className="hero-badge2">MERN Stack</div>
+</div>
       </div>
     </section>
   );
