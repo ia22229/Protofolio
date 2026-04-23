@@ -375,7 +375,7 @@ function Contact({ personal }) {
 
           {status && <p className={`form-status ${status.ok ? 'ok' : 'err'}`}>{status.msg}</p>}
           <button type="submit" className="btn-primary full" disabled={sending}>
-            {sending ? 'Sending…' : 'Send Message 🚀'}
+            {sending ? 'Sending…' : 'Send Message'}
           </button>
           <p style={{textAlign:'center',fontSize:'0.75rem',color:'var(--muted)',marginTop:'0.5rem'}}>
             ✉ You'll receive an auto-reply confirmation email
