@@ -39,9 +39,6 @@ const COUNTRY_CODES = [
   { code: '+27',  flag: '🇿🇦', name: 'South Africa' },
 ];
 
-function isValidEmailFormat(email) {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email);
-}
 
 function usePortfolio() {
   const [data, setData]       = useState(null);
@@ -262,58 +259,31 @@ function Experience({ experience, education }) {
 }
 
 function Contact({ personal }) {
-  const [form, setForm]         = useState({ name: '', email: '', countryCode: '+91', phone: '', message: '' });
-  const [emailStatus, setEmailStatus] = useState(null); // null | 'checking' | 'valid' | 'invalid'
-  const [status, setStatus]     = useState(null);
-  const [sending, setSending]   = useState(false);
+  const [form, setForm]     = useState({ name: '', email: '', countryCode: '+91', phone: '', message: '' });
+  const [status, setStatus] = useState(null);
+  const [sending, setSending] = useState(false);
   const [showCodes, setShowCodes] = useState(false);
-  const emailTimer = useRef(null);
-
-  const handleEmailChange = (val) => {
-    setForm(f => ({ ...f, email: val }));
-    setEmailStatus(null);
-    clearTimeout(emailTimer.current);
-    if (!val) return;
-    if (!isValidEmailFormat(val)) {
-      setEmailStatus('invalid');
-      return;
-    }
-    setEmailStatus('checking');
-    emailTimer.current = setTimeout(() => {
-      const fakeDomains = ['mailinator.com','guerrillamail.com','tempmail.com','throwaway.com','fakeinbox.com','yopmail.com'];
-      const domain = val.split('@')[1]?.toLowerCase() || '';
-      const looksRandom = /^[a-z]{8,}[0-9]{2,}@/.test(val) || domain.split('.')[0].length > 20;
-      if (fakeDomains.includes(domain) || looksRandom) {
-        setEmailStatus('invalid');
-      } else {
-        setEmailStatus('valid');
-      }
-    }, 700);
-  };
 
   const submit = async (e) => {
     e.preventDefault();
-    if (!isValidEmailFormat(form.email)) {
-      setStatus({ ok: false, msg: '⚠️ Please enter a valid email address.' });
-      return;
-    }
-    if (emailStatus === 'invalid') {
-      setStatus({ ok: false, msg: '⚠️ This email address looks invalid or fake. Please use a real email.' });
-      return;
-    }
-    setSending(true); setStatus(null);
+    setSending(true);
+    setStatus(null);
     try {
       const fullPhone = form.phone ? `${form.countryCode} ${form.phone}` : '';
       const res = await fetch(`${API}/api/contact`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: form.name, email: form.email, phone: fullPhone, message: form.message }),
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          phone: fullPhone,
+          message: form.message,
+        }),
       });
       const data = await res.json();
       if (data.success) {
         setStatus({ ok: true, msg: data.message });
         setForm({ name: '', email: '', countryCode: '+91', phone: '', message: '' });
-        setEmailStatus(null);
       } else {
         setStatus({ ok: false, msg: data.error });
       }
