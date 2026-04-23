@@ -119,7 +119,7 @@ function Hero({ personal, setActive }) {
             Hire Me
           </button>
           
-            href="/Irfan_Ahmed_CV.pdf"
+           <a href="/Irfan_Ahmed_CV.pdf"
             download
             className="btn-outline"
             style={{ textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '0.4rem' }}
