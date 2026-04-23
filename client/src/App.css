@@ -601,13 +601,7 @@ body {
   .hire-btn { width: auto !important; display: inline-block !important; }
   .nav-burger { display: flex; order: 3; }
   .nav-logo { order: 1; }
-  .nav-desktop-icons {
-    display: flex;
-    align-items: center;
-    gap: 0.25rem;
-    order: 2;
-    margin-left: auto;
-  }
+  .nav-desktop-icons { display: flex; align-items: center; gap: 0.25rem; order: 2; margin-left: auto; margin-right: 0.5rem; }
   .hero-stats { flex-direction: column; }
   .stat { border-right: none; border-bottom: 1px solid var(--border); }
   .stat:last-child { border-bottom: none; }
