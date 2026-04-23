@@ -146,7 +146,7 @@ function Hero({ personal, setActive, theme }) {
             Hire Me
           </button>
           
-           <a href="/Irfan_Ahmed_CV.pdf"
+           <a href="/Irfan_Ahmed_cv.pdf"
             download
             className="btn-outline"
             style={{ textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '0.4rem' }}
@@ -164,9 +164,9 @@ function Hero({ personal, setActive, theme }) {
         <p className="hero-availability">🟢 {personal.availability}</p>
 
         <div className="hero-stats">
-          <div className="stat"><span className="stat-num">1+</span><span className="stat-label">Years Experience</span></div>
-          <div className="stat"><span className="stat-num">5+</span><span className="stat-label">Projects Done</span></div>
-          <div className="stat"><span className="stat-num">3+</span><span className="stat-label">Happy Clients</span></div>
+          <div className="stat"><span className="stat-num">3+</span><span className="stat-label">Months Experience</span></div>
+          <div className="stat"><span className="stat-num">25+</span><span className="stat-label">Projects Done</span></div>
+          <div className="stat"><span className="stat-num">3+</span><span className="stat-label">Projects Deployed</span></div>
         </div>
       </div>
 
