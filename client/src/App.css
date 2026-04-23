@@ -135,25 +135,35 @@ body {
 .hero-container {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start; /* Aligns content to the left */
   gap: 4rem;
   max-width: 1200px;
   margin: 0 auto;
   padding: 2rem;
   z-index: 2;
   position: relative;
+  width: 100%;
 }
 
+.hero-image-container {
+  flex-shrink: 0; /* Prevents the image from shrinking too much */
+}
+
+.hero-content {
+  flex-grow: 1; /* Allows the text content to take up remaining space */
+  text-align: left; /* Ensures the text inside stays aligned left */
+}
+
+/* Optional: Make the image match the rounded rectangle style in your screenshot */
 .hero-profile-img {
-  width: 400px; /* Adjust size as needed */
+  width: 350px; 
   height: auto;
   border-radius: 20px;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-  border: 1px solid rgba(255,255,255,0.1);
   object-fit: cover;
+  /* Remove the heavy box-shadow if you want the flat dark look from your screenshot */
 }
 
-/* Responsive for Mobile */
+/* Responsive adjustment for mobile */
 @media (max-width: 768px) {
   .hero-container {
     flex-direction: column;
@@ -161,11 +171,10 @@ body {
     gap: 2rem;
   }
   
-  .hero-profile-img {
-    width: 280px;
+  .hero-content {
+    text-align: center; /* Center text on mobile */
   }
 }
-
 
 .hero-left { animation: fadeLeft 0.8s ease both; }
 .hero-greeting {
