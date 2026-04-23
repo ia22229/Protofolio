@@ -321,7 +321,7 @@ body {
 }
 .hero-badge {
   position: absolute;
-  bottom: 20px; left: -20px;
+  top: 20px; left: -20px;
   background: var(--accent);
   color: #fff; padding: 0.6rem 1rem;
   border-radius: 10px;
