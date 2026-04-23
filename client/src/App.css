@@ -616,3 +616,19 @@ body {
   justify-content: center;
   }
 }
+.nav-desktop-icons {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.nav-mobile-icons { display: none; }
+
+@media (max-width: 900px) {
+  .nav-desktop-icons { display: none; }
+  .nav-mobile-icons {
+    display: flex !important;
+    justify-content: center;
+    gap: 1rem;
+    padding: 0.5rem 0;
+  }
+}
