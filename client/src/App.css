@@ -691,6 +691,3 @@ body {
   .nav-mobile-icons { display: none !important; }
 }
 
-/* Desktop: hide the nav-desktop-icons div (icons are in nav-links instead) */
-.nav-desktop-icons { display: none; }
-.nav-mobile-icons { display: none; }
