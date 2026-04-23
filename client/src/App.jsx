@@ -89,8 +89,8 @@ function Hero({ personal, setActive }) {
       </div>
       <div className="hero-container"> 
         <div className="hero-image-container">
-          <img src="irf.png" alt={personal.name} className="hero-profile-img" />
-        </div>
+          <img src="irf.png" alt={} className="hero-profile-img" />
+       </div>
       <div className="hero-content">
         <p className="hero-greeting">Hello, I'm</p>
         <h1 className="hero-name">{personal.name}</h1>
