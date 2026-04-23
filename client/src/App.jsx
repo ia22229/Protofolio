@@ -97,12 +97,7 @@ function Hero({ personal, setActive }) {
         ))}
       </div>
       
-      <div className="hero-container"> 
-        <div className="hero-image-container">
-          {/* FIXED: Added a valid string to the alt attribute */}
-          <img src="irf.png" alt={personal.name || "Profile Picture"} className="hero-profile-img" />
-        </div>
-        
+      <div className="hero-container">       
         <div className="hero-content">
           <p className="hero-greeting">Hello, I'm</p>
           <h1 className="hero-name">{personal.name}</h1>
