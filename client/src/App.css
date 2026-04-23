@@ -111,25 +111,37 @@ body {
   box-shadow: 0 4px 15px var(--accent-glow);
 }
 .hire-btn:hover { transform: translateY(-2px) !important; box-shadow: 0 8px 25px var(--accent-glow) !important; background: var(--accent2) !important; }
+
+
+.nav-burger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; }
+
+/* ── Desktop icon group ──────────────────────────── */
 .nav-desktop-icons {
   display: flex;
   align-items: center;
   gap: 0.5rem;
 }
 
-.nav-desktop-icons .admin-btn {
+.nav-desktop-icons button {
   background: none;
   border: 1px solid var(--border);
   border-radius: 8px;
-  padding: 0.4rem 0.6rem;
+  padding: 0.4rem 0.65rem;
   color: var(--text);
   cursor: pointer;
   transition: all 0.2s;
   display: flex;
   align-items: center;
+  justify-content: center;
 }
-.nav-desktop-icons .admin-btn:hover,
-.nav-desktop-icons .admin-btn.active {
+
+.nav-desktop-icons button:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: var(--accent-glow);
+}
+
+.nav-desktop-icons button.active {
   color: var(--accent);
   border-color: var(--accent);
   background: var(--accent-glow);
@@ -139,37 +151,38 @@ body {
 @media (max-width: 900px) {
   .nav-desktop-icons { display: none; }
 }
-
-/* Mobile icons row inside dropdown */
+/* ── Mobile icons row ────────────────────────────── */
 .nav-mobile-icons {
-  display: none;
+  display: none !important;
 }
+
 @media (max-width: 900px) {
   .nav-mobile-icons {
     display: flex !important;
-    gap: 0.75rem;
-    padding: 0.5rem 1rem;
+    justify-content: center;
+    gap: 1rem;
+    padding-top: 0.5rem;
     border-top: 1px solid var(--border);
     margin-top: 0.25rem;
   }
-  .nav-mobile-icons .admin-btn {
+  .nav-mobile-icons button {
     background: none;
     border: 1px solid var(--border);
     border-radius: 8px;
-    padding: 0.4rem 0.7rem;
+    padding: 0.45rem 0.75rem;
     color: var(--text);
     cursor: pointer;
     display: flex;
     align-items: center;
+    justify-content: center;
     transition: all 0.2s;
   }
-  .nav-mobile-icons .admin-btn.active {
+  .nav-mobile-icons button.active {
     color: var(--accent);
     border-color: var(--accent);
   }
 }
 
-.nav-burger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; }
 .nav-burger span { display: block; width: 22px; height: 2px; background: var(--accent); border-radius: 2px; }
 
 .hero {
