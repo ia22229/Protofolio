@@ -14,12 +14,10 @@ app.use(cors({
 }));
 app.use(express.json());
 
-// ── MongoDB Connection ──────────────────────────────────────────
 mongoose.connect(process.env.MONGODB_URI)
   .then(() => console.log('✅ MongoDB connected'))
   .catch(err => console.error('❌ MongoDB error:', err));
 
-// ── Contact Schema ──────────────────────────────────────────────
 const contactSchema = new mongoose.Schema({
   name:      { type: String, required: true },
   email:     { type: String, required: true },
@@ -30,16 +28,14 @@ const contactSchema = new mongoose.Schema({
 });
 const Contact = mongoose.model('Contact', contactSchema);
 
-// ── Nodemailer Transporter ──────────────────────────────────────
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: process.env.EMAIL_USER,   // your gmail
-    pass: process.env.EMAIL_PASS,   // gmail app password
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
   }
 });
 
-// ── Portfolio Data ──────────────────────────────────────────────
 const portfolioData = {
   personal: {
     name: "Irfan Ahmed",
@@ -127,7 +123,6 @@ const portfolioData = {
   ],
 };
 
-// ── Portfolio Routes ────────────────────────────────────────────
 app.get('/api/portfolio',             (req, res) => res.json(portfolioData));
 app.get('/api/portfolio/personal',    (req, res) => res.json(portfolioData.personal));
 app.get('/api/portfolio/skills',      (req, res) => res.json(portfolioData.skills));
@@ -135,7 +130,6 @@ app.get('/api/portfolio/education',   (req, res) => res.json(portfolioData.educa
 app.get('/api/portfolio/experience',  (req, res) => res.json(portfolioData.experience));
 app.get('/api/portfolio/projects',    (req, res) => res.json(portfolioData.projects));
 
-// ── Contact Route ───────────────────────────────────────────────
 app.post('/api/contact', async (req, res) => {
   const { name, email, phone, message } = req.body;
   if (!name || !email || !message) {
@@ -143,11 +137,9 @@ app.post('/api/contact', async (req, res) => {
   }
 
   try {
-    // 1. Save to MongoDB
     await Contact.create({ name, email, phone: phone || '', message });
     console.log('📩 Saved to MongoDB:', { name, email, phone });
 
-    // 2. Email to YOU (Irfan) — notification
     await transporter.sendMail({
       from: `"Portfolio Contact" <${process.env.EMAIL_USER}>`,
       to: process.env.EMAIL_USER,
@@ -169,7 +161,6 @@ app.post('/api/contact', async (req, res) => {
       `
     });
 
-    // 3. Auto-reply email TO the sender
     await transporter.sendMail({
       from: `"Irfan Ahmed" <${process.env.EMAIL_USER}>`,
       to: email,
@@ -206,7 +197,6 @@ app.post('/api/contact', async (req, res) => {
   }
 });
 
-// ── Admin Routes (protected by secret token) ────────────────────
 const ADMIN_TOKEN = process.env.ADMIN_TOKEN || 'irfan-admin-secret';
 
 function adminAuth(req, res, next) {
@@ -215,7 +205,6 @@ function adminAuth(req, res, next) {
   next();
 }
 
-// Get all messages
 app.get('/api/admin/messages', adminAuth, async (req, res) => {
   try {
     const messages = await Contact.find().sort({ createdAt: -1 });
@@ -225,7 +214,6 @@ app.get('/api/admin/messages', adminAuth, async (req, res) => {
   }
 });
 
-// Mark as read
 app.patch('/api/admin/messages/:id/read', adminAuth, async (req, res) => {
   try {
     await Contact.findByIdAndUpdate(req.params.id, { read: true });
@@ -235,7 +223,6 @@ app.patch('/api/admin/messages/:id/read', adminAuth, async (req, res) => {
   }
 });
 
-// Delete message
 app.delete('/api/admin/messages/:id', adminAuth, async (req, res) => {
   try {
     await Contact.findByIdAndDelete(req.params.id);
