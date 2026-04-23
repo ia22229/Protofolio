@@ -384,6 +384,7 @@ body {
   border-radius: 40% 60% 60% 40% / 50% 40% 60% 50%;
   animation: morph 8s ease-in-out infinite;
   z-index: 1;
+  transition: opacity 0.4s ease; /* Add this line for the smooth fade! */
 }
 .hero-accent-ring {
   position: absolute;
