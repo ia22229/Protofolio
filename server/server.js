@@ -141,27 +141,21 @@ app.post('/api/contact', async (req, res) => {
     await Contact.create({ name, email, phone: phone || '', message });
     console.log('📩 Saved to MongoDB:', { name, email, phone });
 
-    // 2. Trigger Hacker-Mode Phone Notification (MacroDroid Webhook)
-    if (process.env.MACRODROID_WEBHOOK_URL) {
-      // Crafting a themed plain-text message to match your HTML email vibe
-      const themedTextMessage = `📬 NEW PORTFOLIO LEAD\n\n👤 Name: ${name}\n📧 Email: ${email}\n📞 Phone: ${phone || 'Not provided'}\n\n💬 Message:\n${message}`;
-
+        // 2. Trigger Hacker-Mode Phone Auto-Reply (MacroDroid)
+    // ONLY run this if the user actually typed a phone number
+    if (process.env.MACRODROID_WEBHOOK_URL && phone) { 
       try {
         await fetch(process.env.MACRODROID_WEBHOOK_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             name: name,
-            email: email,
-            phone: phone || "No phone provided",
-            message: message,
-            formatted_text: themedTextMessage // Sending the themed text directly
+            phone: phone // This maps to [webhook_param_phone] in MacroDroid
           })
         });
-        console.log("📱 Fired webhook to MacroDroid!");
+        console.log("📱 Fired auto-reply webhook to MacroDroid!");
       } catch (webhookError) {
         console.error("⚠️ Failed to trigger phone webhook:", webhookError);
-        // We don't throw an error here so the emails still send even if the phone is offline
       }
     }
 
