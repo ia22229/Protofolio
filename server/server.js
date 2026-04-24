@@ -141,23 +141,7 @@ app.post('/api/contact', async (req, res) => {
     await Contact.create({ name, email, phone: phone || '', message });
     console.log('📩 Saved to MongoDB:', { name, email, phone });
 
-        // 2. Trigger Hacker-Mode Phone Auto-Reply (MacroDroid)
-    // ONLY run this if the user actually typed a phone number
-    if (process.env.MACRODROID_WEBHOOK_URL && phone) { 
-      try {
-        await fetch(process.env.MACRODROID_WEBHOOK_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            name: name,
-            phone: phone // This maps to [webhook_param_phone] in MacroDroid
-          })
-        });
-        console.log("📱 Fired auto-reply webhook to MacroDroid!");
-      } catch (webhookError) {
-        console.error("⚠️ Failed to trigger phone webhook:", webhookError);
-      }
-    }
+
 
     // 3. Send Notification Email to You
     await transporter.sendMail({
