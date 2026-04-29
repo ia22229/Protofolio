@@ -146,12 +146,12 @@ function Hero({ personal, setActive, theme }) {
             Hire Me
           </button>
           
-           <a href="/Irfan_Ahmed_cv.pdf"
+           <a href="/Irfan_resume.pdf"
             download
             className="btn-outline"
             style={{ textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '0.4rem' }}
           >
-            Download CV ↓
+            Download Resume ↓
           </a>
         </div>
 
