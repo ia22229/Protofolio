@@ -1,4 +1,4 @@
-# 🚀 Irfan Ahmed — MERN Stack Portfolio
+#  Irfan Ahmed — MERN Stack Portfolio
 
 > A production-ready, full-stack personal portfolio built from scratch with the **MERN stack** — featuring a React frontend, an Express/Node.js REST API backend, MongoDB contact storage, and Nodemailer email integration.
 
