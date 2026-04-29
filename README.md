@@ -2,23 +2,23 @@
 
 > A production-ready, full-stack personal portfolio built from scratch with the **MERN stack** — featuring a React frontend, an Express/Node.js REST API backend, MongoDB contact storage, and Nodemailer email integration.
 
-**Live:** [irfanahmed2229.vercel.app](https://irfanahmed2229.vercel.app)
+**Live:** [irfan2229.vercel.app](https://irfan2229.vercel.app)
 
 ---
 
-## ✨ Features
+##  Features
 
-- 🎨 **Fully custom React UI** — no UI libraries, pure CSS3 with Google Fonts (Syne + DM Mono)
-- 📡 **REST API backend** — Express.js serving all portfolio data as structured JSON
-- 🗄️ **MongoDB integration** — contact form submissions stored persistently via Mongoose
-- 📧 **Email notifications** — Nodemailer sends an email alert on every contact form submission
-- 👤 **Admin panel** — view and manage incoming messages (mark as read)
-- 📱 **Fully responsive** — works across mobile, tablet, and desktop
-- ⚡ **Concurrent dev workflow** — frontend and backend run together with a single command
+-  **Fully custom React UI** — no UI libraries, pure CSS3 with Google Fonts (Syne + DM Mono)
+-  **REST API backend** — Express.js serving all portfolio data as structured JSON
+-  **MongoDB integration** — contact form submissions stored persistently via Mongoose
+-  **Email notifications** — Nodemailer sends an email alert on every contact form submission
+-  **Admin panel** — view and manage incoming messages (mark as read)
+-  **Fully responsive** — works across mobile, tablet, and desktop
+-  **Concurrent dev workflow** — frontend and backend run together with a single command
 
 ---
 
-## 🗂️ Project Structure
+##  Project Structure
 
 ```
 Protofolio-main/
@@ -57,7 +57,7 @@ Protofolio-main/
 
 ---
 
-## 🚦 Quick Start
+##  Quick Start
 
 ### Prerequisites
 
@@ -93,7 +93,7 @@ EMAIL_USER=your_gmail@gmail.com
 EMAIL_PASS=your_gmail_app_password
 ```
 
-> 💡 Use a [Gmail App Password](https://myaccount.google.com/apppasswords) — not your main account password.
+>  Use a [Gmail App Password](https://myaccount.google.com/apppasswords) — not your main account password.
 
 **`client/.env`**
 ```env
@@ -129,7 +129,7 @@ npm run dev:client
 
 ---
 
-## 📡 API Endpoints
+##  API Endpoints
 
 | Method | Route | Description |
 |--------|-------|-------------|
@@ -145,7 +145,7 @@ npm run dev:client
 
 ---
 
-## 🚀 Deployment
+##  Deployment
 
 ### Frontend → Vercel
 
@@ -166,7 +166,7 @@ Then deploy the `build/` folder to [Vercel](https://vercel.com). Set `REACT_APP_
 
 ---
 
-## 🔒 Security Notes
+##  Security Notes
 
 - **Never commit `.env` files** — both are already in `.gitignore`
 - Use Gmail [App Passwords](https://myaccount.google.com/apppasswords), not your main password
@@ -174,7 +174,7 @@ Then deploy the `build/` folder to [Vercel](https://vercel.com). Set `REACT_APP_
 
 ---
 
-## 📬 Contact
+##  Contact
 
 **Irfan Ahmed** — MERN Stack Developer
 
