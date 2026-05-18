@@ -131,91 +131,86 @@ app.get('/api/portfolio/experience',  (req, res) => res.json(portfolioData.exper
 app.get('/api/portfolio/projects',    (req, res) => res.json(portfolioData.projects));
 
 app.post('/api/contact', async (req, res) => {
-  const { name, email, phone, message } = req.body;
-  if (!name || !email || !message) {
-    return res.status(400).json({ error: 'Name, email and message are required.' });
-  }
+  const { name, email, phone, message } = req.body;
+  if (!name || !email || !message) {
+    return res.status(400).json({ error: 'Name, email and message are required.' });
+  }
 
-  try {
-    // 1. Save to Database
-    await Contact.create({ name, email, phone: phone || '', message });
-    console.log('📩 Saved to MongoDB:', { name, email, phone });
+  try {
+    // 1. Save to Database
+    await Contact.create({ name, email, phone: phone || '', message });
+    console.log('📩 Saved to MongoDB:', { name, email, phone });
 
-    // 2. Attempt to send emails inside an inner try/catch
-    try {
-      // 3. Send Notification Email to You
-      await transporter.sendMail({
-        from: `"Portfolio Contact" <${process.env.EMAIL_USER}>`,
-        to: process.env.EMAIL_USER,
-        subject: `📬 New message from ${name}`,
-        html: `
-          <div style="font-family:'Segoe UI',sans-serif;max-width:560px;margin:auto;background:#0e0e0e;border-radius:16px;overflow:hidden;border:1px solid rgba(255,107,0,0.2);">
-            <div style="background:linear-gradient(135deg,#ff6b00,#ff9a3c);padding:24px 32px;">
-              <h2 style="color:#fff;margin:0;font-size:1.4rem;">📬 New Portfolio Message</h2>
-              <p style="color:rgba(255,255,255,0.8);margin:6px 0 0;font-size:0.85rem;">Someone reached out via irfan2229.vercel.app</p>
-            </div>
-            <div style="padding:28px 32px;">
-              <table style="width:100%;border-collapse:collapse;">
-                <tr><td style="padding:10px 0;border-bottom:1px solid #1f1f1f;color:#888;font-size:0.82rem;width:80px;">NAME</td><td style="padding:10px 0;border-bottom:1px solid #1f1f1f;color:#f0f0f0;font-weight:600;">${name}</td></tr>
-                <tr><td style="padding:10px 0;border-bottom:1px solid #1f1f1f;color:#888;font-size:0.82rem;">EMAIL</td><td style="padding:10px 0;border-bottom:1px solid #1f1f1f;"><a href="mailto:${email}" style="color:#ff6b00;">${email}</a></td></tr>
-                ${phone ? `<tr><td style="padding:10px 0;border-bottom:1px solid #1f1f1f;color:#888;font-size:0.82rem;">PHONE</td><td style="padding:10px 0;border-bottom:1px solid #1f1f1f;color:#f0f0f0;">${phone}</td></tr>` : ''}
-              </table>
-              <div style="margin-top:20px;">
-                <p style="color:#888;font-size:0.82rem;margin-bottom:8px;">MESSAGE</p>
-                <div style="background:#1f1f1f;border-left:3px solid #ff6b00;padding:16px;border-radius:0 8px 8px 0;color:#f0f0f0;line-height:1.6;">${message}</div>
-              </div>
-              <a href="mailto:${email}" style="display:inline-block;margin-top:20px;background:#ff6b00;color:#fff;padding:10px 24px;border-radius:8px;text-decoration:none;font-weight:700;">Reply Now →</a>
-            </div>
-            <div style="padding:16px 32px;background:#161616;font-size:0.75rem;color:#555;">Sent from irfan2229.vercel.app</div>
-          </div>
-        `
-      });
 
-      // 4. Send Auto-Reply Email to the User
-      await transporter.sendMail({
-        from: `"Irfan Ahmed" <${process.env.EMAIL_USER}>`,
-        to: email,
-        subject: `Thanks for reaching out, ${name}! 👋`,
-        html: `
-          <div style="font-family:'Segoe UI',sans-serif;max-width:560px;margin:auto;background:#0e0e0e;border-radius:16px;overflow:hidden;border:1px solid rgba(255,107,0,0.2);">
-            <div style="background:linear-gradient(135deg,#ff6b00,#ff9a3c);padding:24px 32px;">
-              <h2 style="color:#fff;margin:0;">Hey ${name}! 👋</h2>
-              <p style="color:rgba(255,255,255,0.85);margin:6px 0 0;font-size:0.9rem;">Thanks for reaching out</p>
-            </div>
-            <div style="padding:28px 32px;">
-              <p style="color:#a0a0a0;line-height:1.8;margin-bottom:20px;">
-                I've received your message and will get back to you as soon as possible — usually within <strong style="color:#ff6b00;">24 hours</strong>.
-              </p>
-              <div style="background:#1f1f1f;border-left:3px solid #ff6b00;padding:16px;border-radius:0 8px 8px 0;margin-bottom:24px;">
-                <p style="color:#666;font-size:0.8rem;margin:0 0 8px;">YOUR MESSAGE</p>
-                <p style="color:#f0f0f0;margin:0;line-height:1.6;">${message}</p>
-              </div>
-              <a href="https://irfan2229.vercel.app" style="display:inline-block;background:#ff6b00;color:#fff;padding:12px 28px;border-radius:8px;text-decoration:none;font-weight:700;font-size:0.95rem;">
-                View My Portfolio →
-              </a>
-            </div>
-            <div style="padding:20px 32px;background:#161616;border-top:1px solid #1f1f1f;">
-              <p style="color:#555;font-size:0.8rem;margin:0;">
-                <strong style="color:#ff6b00;">Irfan Ahmed</strong> · MERN Stack Developer · Kerala, India<br/>
-                <a href="https://github.com/ia22229" style="color:#ff6b00;">GitHub</a> &nbsp;·&nbsp;
-                <a href="https://linkedin.com/in/ia2229" style="color:#ff6b00;">LinkedIn</a>
-              </p>
-            </div>
-          </div>
-        `
-      });
 
-      res.json({ success: true, message: `Thanks ${name}! I'll get back to you soon. Check your email for confirmation.` });
+    // 3. Send Notification Email to You
+    await transporter.sendMail({
+      from: `"Portfolio Contact" <${process.env.EMAIL_USER}>`,
+      to: process.env.EMAIL_USER,
+      subject: `📬 New message from ${name}`,
+      html: `
+        <div style="font-family:'Segoe UI',sans-serif;max-width:560px;margin:auto;background:#0e0e0e;border-radius:16px;overflow:hidden;border:1px solid rgba(255,107,0,0.2);">
+          <div style="background:linear-gradient(135deg,#ff6b00,#ff9a3c);padding:24px 32px;">
+            <h2 style="color:#fff;margin:0;font-size:1.4rem;">📬 New Portfolio Message</h2>
+            <p style="color:rgba(255,255,255,0.8);margin:6px 0 0;font-size:0.85rem;">Someone reached out via irfan2229.vercel.app</p>
+          </div>
+          <div style="padding:28px 32px;">
+            <table style="width:100%;border-collapse:collapse;">
+              <tr><td style="padding:10px 0;border-bottom:1px solid #1f1f1f;color:#888;font-size:0.82rem;width:80px;">NAME</td><td style="padding:10px 0;border-bottom:1px solid #1f1f1f;color:#f0f0f0;font-weight:600;">${name}</td></tr>
+              <tr><td style="padding:10px 0;border-bottom:1px solid #1f1f1f;color:#888;font-size:0.82rem;">EMAIL</td><td style="padding:10px 0;border-bottom:1px solid #1f1f1f;"><a href="mailto:${email}" style="color:#ff6b00;">${email}</a></td></tr>
+              ${phone ? `<tr><td style="padding:10px 0;border-bottom:1px solid #1f1f1f;color:#888;font-size:0.82rem;">PHONE</td><td style="padding:10px 0;border-bottom:1px solid #1f1f1f;color:#f0f0f0;">${phone}</td></tr>` : ''}
+            </table>
+            <div style="margin-top:20px;">
+              <p style="color:#888;font-size:0.82rem;margin-bottom:8px;">MESSAGE</p>
+              <div style="background:#1f1f1f;border-left:3px solid #ff6b00;padding:16px;border-radius:0 8px 8px 0;color:#f0f0f0;line-height:1.6;">${message}</div>
+            </div>
+            <a href="mailto:${email}" style="display:inline-block;margin-top:20px;background:#ff6b00;color:#fff;padding:10px 24px;border-radius:8px;text-decoration:none;font-weight:700;">Reply Now →</a>
+          </div>
+          <div style="padding:16px 32px;background:#161616;font-size:0.75rem;color:#555;">Sent from irfan2229.vercel.app</div>
+        </div>
+      `
+    });
 
-    } catch (emailError) {
-      console.error('DB saved, but email failed:', emailError);
-      res.json({ success: true, message: `Thanks ${name}! Your message was saved, though email confirmation might be delayed.` });
-    }
+    // 4. Send Auto-Reply Email to the User
+    await transporter.sendMail({
+      from: `"Irfan Ahmed" <${process.env.EMAIL_USER}>`,
+      to: email,
+      subject: `Thanks for reaching out, ${name}! 👋`,
+      html: `
+        <div style="font-family:'Segoe UI',sans-serif;max-width:560px;margin:auto;background:#0e0e0e;border-radius:16px;overflow:hidden;border:1px solid rgba(255,107,0,0.2);">
+          <div style="background:linear-gradient(135deg,#ff6b00,#ff9a3c);padding:24px 32px;">
+            <h2 style="color:#fff;margin:0;">Hey ${name}! 👋</h2>
+            <p style="color:rgba(255,255,255,0.85);margin:6px 0 0;font-size:0.9rem;">Thanks for reaching out</p>
+          </div>
+          <div style="padding:28px 32px;">
+            <p style="color:#a0a0a0;line-height:1.8;margin-bottom:20px;">
+              I've received your message and will get back to you as soon as possible — usually within <strong style="color:#ff6b00;">24 hours</strong>.
+            </p>
+            <div style="background:#1f1f1f;border-left:3px solid #ff6b00;padding:16px;border-radius:0 8px 8px 0;margin-bottom:24px;">
+              <p style="color:#666;font-size:0.8rem;margin:0 0 8px;">YOUR MESSAGE</p>
+              <p style="color:#f0f0f0;margin:0;line-height:1.6;">${message}</p>
+            </div>
+            <a href="https://irfan2229.vercel.app" style="display:inline-block;background:#ff6b00;color:#fff;padding:12px 28px;border-radius:8px;text-decoration:none;font-weight:700;font-size:0.95rem;">
+              View My Portfolio →
+            </a>
+          </div>
+          <div style="padding:20px 32px;background:#161616;border-top:1px solid #1f1f1f;">
+            <p style="color:#555;font-size:0.8rem;margin:0;">
+              <strong style="color:#ff6b00;">Irfan Ahmed</strong> · MERN Stack Developer · Kerala, India<br/>
+              <a href="https://github.com/ia22229" style="color:#ff6b00;">GitHub</a> &nbsp;·&nbsp;
+              <a href="https://linkedin.com/in/ia2229" style="color:#ff6b00;">LinkedIn</a>
+            </p>
+          </div>
+        </div>
+      `
+    });
 
-  } catch (err) {
-    console.error('Database Error:', err);
-    res.status(500).json({ error: 'Failed to save message. Please email directly.' });
-  }
+    res.json({ success: true, message: `Thanks ${name}! I'll get back to you soon. Check your email for confirmation.` });
+
+  } catch (err) {
+    console.error('Error:', err);
+    res.status(500).json({ error: 'Failed to send. Please email directly.' });
+  }
 });
 
 
